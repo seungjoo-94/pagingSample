@@ -45,6 +45,7 @@
                 alert("서버에서 처리중 에러가 발생하였습니다.");
             },
             success : function(data) {
+                dataList=[];
                 totalData=data.resultListCnt; // 데이터 총 개수
                 $.each(data.resultList, function(i, v) {
                     dataList.push(v); // 데이터를 배열에 담아준다.
