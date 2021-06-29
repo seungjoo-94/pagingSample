@@ -123,7 +123,7 @@ public class PharmacyInfoMapCotroller {
 
     @GetMapping("/viewPharmacyInfoMap")
     public String viewPharmacyInfoMap(ModelMap model, ParmacyInfoMapVO parmacyInfoMapVO) throws JsonProcessingException {
-       model.addAttribute("pharmacyInfo",new ObjectMapper().writeValueAsString(parmacyInfoMapService.selectParmacyInfoList()));
+       //model.addAttribute("pharmacyInfo",new ObjectMapper().writeValueAsString(parmacyInfoMapService.selectParmacyInfoList()));
 
         return "sample/ajaxSample";
     }
