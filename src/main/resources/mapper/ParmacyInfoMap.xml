@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.PharmacyInfoMap.Dao.ParmacyInfoMapDao">
+    <insert id="insertParmacyInfo"  parameterType="com.example.PharmacyInfoMap.Dto.ParmacyInfoMapVO" >
+      INSERT
+       INTO tb_pharmacyinfo
+        (
+             instNm,
+             refineWgs84Logt,
+             refineWgs84Lat,
+             refineRoadnmAddr,
+             reprsntTelno,
+             refineLotonoAddr,
+             simplOtlnmapCont,
+             monEndTreatTm,
+             tuesEndTreatTm,
+             wedEndTreatTm,
+             thurEndTreatTm,
+             friEndTreatTm,
+             satEndTreatTm,
+             sunEndTreatTm,
+             holidayEndTreatTm,
+             monBeginTreatTm,
+             tuesBeginTreatTm,
+             wedBeginTreatTm,
+             thurBeginTreatTm,
+             friBeginTreatTm,
+             satBeginTreatTm,
+             sunBeginTreatTm,
+             holidayBeginTreatTm,
+             colctTime
+        )VALUES(
+             #{instNm},
+             #{refineWgs84Logt},
+             #{refineWgs84Lat},
+             #{refineRoadnmAddr},
+             #{reprsntTelno},
+             #{refineLotonoAddr},
+             #{simplOtlnmapCont},
+             #{monEndTreatTm},
+             #{tuesEndTreatTm},
+             #{wedEndTreatTm},
+             #{thurEndTreatTm},
+             #{friEndTreatTm},
+             #{satEndTreatTm},
+             #{sunEndTreatTm},
+             #{holidayEndTreatTm},
+             #{monBeginTreatTm},
+             #{tuesBeginTreatTm},
+             #{wedBeginTreatTm},
+             #{thurBeginTreatTm},
+             #{friBeginTreatTm},
+             #{satBeginTreatTm},
+             #{sunBeginTreatTm},
+             #{holidayBeginTreatTm},
+             now()
+        )
+    </insert>
+
+     <select id="select" parameterType="com.example.PharmacyInfoMap.Dto.ParmacyInfoMapVO" resultType="hashmap">
+        select
+            row_number() over(order by refineLotonoAddr) as num,
+            instNm,
+            refineWgs84Logt,
+            refineWgs84Lat,
+            refineRoadnmAddr,
+            reprsntTelno,
+            refineLotonoAddr,
+            simplOtlnmapCont,
+            case when monBeginTreatTm is null then '휴일' else concat(monBeginTreatTm,'~',monEndTreatTm) end as mon,
+            case when tuesBeginTreatTm is null then '휴일' else concat(tuesBeginTreatTm,'~',tuesEndTreatTm) end as tues,
+            case when wedBeginTreatTm is null then '휴일' else concat(wedBeginTreatTm,'~',wedEndTreatTm) end as wed,
+            case when thurBeginTreatTm is null then '휴일' else concat(thurBeginTreatTm,'~',thurEndTreatTm) end as thur,
+            case when friBeginTreatTm is null then '휴일' else concat(friBeginTreatTm,'~',friEndTreatTm) end as fri,
+            case when satBeginTreatTm is null then '휴일' else concat(satBeginTreatTm,'~',satEndTreatTm) end as sat,
+            case when sunBeginTreatTm is null then '휴일' else concat(sunBeginTreatTm,'~',sunEndTreatTm) end as sun,
+            case when holidayBeginTreatTm is null then '휴일' else concat(holidayBeginTreatTm,'~',holidayEndTreatTm) end as holiday
+        from tb_pharmacyinfo
+            where 1=1
+         <if test="searchTxt!=null and !searchTxt.equals('')">
+             and refineLotonoAddr like CONCAT('%',#{searchTxt},'%')
+        </if>
+
+     </select>
+
+
+    <select id="selectCnt" parameterType="com.example.PharmacyInfoMap.Dto.ParmacyInfoMapVO" resultType="int">
+        select
+            count(*)
+        from tb_pharmacyinfo
+        where 1=1
+        <if test="searchTxt!=null and !searchTxt.equals('')">
+            and refineLotonoAddr like CONCAT('%',#{searchTxt},'%')
+        </if>
+    </select>
+</mapper>
